@@ -5,8 +5,8 @@
         "core": "*",
         "bluetooth": "*",
         "pxt-scratch-more": "github:yokobond/pxt-scratch-more#v0.3.2",
-        "pxt-carcntrol": "github:hokarimasahiro/pxt-carcontrol#8d421887e92ebca5eb1df2ad4fa80c85b30be2a2",
-        "pxt-testi2c": "github:hokarimasahiro/pxt-testi2c#a3c516b53137e7d47615b5756f3d6d171af0bc1c"
+        "pxt-carcntrol": "github:hokarimasahiro/pxt-carcontrol#9e4e8bc62b6e95dc57f1c6d397ef540449ccf1f1",
+        "microphone": "*"
     },
     "files": [
         "main.blocks",

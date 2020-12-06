@@ -18,7 +18,20 @@ let slot3Value = 0
 let patrolRight = 0
 let patrolLeft = 0
 pins.digitalWritePin(DigitalPin.P0, 0)
-basic.showString("scratch2maqueen ")
+if (input.buttonIsPressed(Button.A)) {
+    carcotrol.setCarType(carType.Tinybit)
+} else if (input.buttonIsPressed(Button.B)) {
+    carcotrol.setCarType(carType.Ecocar)
+} else {
+    carcotrol.setCarType(carType.Maqueen)
+}
+if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
+    basic.showString("T")
+} else if (carcotrol.getCarType() == carcotrol.car(carType.Ecocar)) {
+    basic.showString("E")
+} else {
+    basic.showString("M")
+}
 patrolLeft = 0
 patrolRight = 0
 basic.forever(function () {
