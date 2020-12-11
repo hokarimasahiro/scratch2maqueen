@@ -19,9 +19,11 @@ let patrolRight = 0
 let patrolLeft = 0
 pins.digitalWritePin(DigitalPin.P0, 0)
 if (input.buttonIsPressed(Button.A)) {
-    carcotrol.setCarType(carType.Tinybit)
-} else if (input.buttonIsPressed(Button.B)) {
     carcotrol.setCarType(carType.Ecocar)
+} else if (input.buttonIsPressed(Button.B)) {
+    carcotrol.setCarType(carType.Tinybit)
+} else if (pins.digitalReadPin(DigitalPin.P2) == 0) {
+    carcotrol.setCarType(carType.Tinybit)
 } else {
     carcotrol.setCarType(carType.Maqueen)
 }
