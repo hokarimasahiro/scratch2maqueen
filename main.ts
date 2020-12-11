@@ -56,8 +56,16 @@ basic.forever(function () {
         } else {
             carcotrol.setLED(Position.Right, carcotrol.colors(RGBColors.Black))
         }
-    } else {
-        carcotrol.setLED(Position.Both, carcotrol.rgb(ledLeft * 255, ledRight * 255, 0))
+    } else if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
+        if (ledLeft == 1 && ledRight == 0) {
+            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Red))
+        } else if (ledLeft == 0 && ledRight == 1) {
+            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Green))
+        } else if (ledLeft == 1 && ledRight == 1) {
+            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Blue))
+        } else {
+            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Black))
+        }
     }
     patrolLeft = carcotrol.Line_Sensor(Position.Left)
     patrolRight = carcotrol.Line_Sensor(Position.Right)
