@@ -57,6 +57,17 @@ basic.forever(function () {
         } else {
             carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Black))
         }
+    } else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+        if (ledLeft == 1) {
+            carcotrol.setNeoPixelColor(0, carcotrol.colors(RGBColors.Red))
+        } else {
+            carcotrol.setNeoPixelColor(0, carcotrol.colors(RGBColors.Black))
+        }
+        if (ledRight == 1) {
+            carcotrol.setNeoPixelColor(1, carcotrol.colors(RGBColors.Red))
+        } else {
+            carcotrol.setNeoPixelColor(1, carcotrol.colors(RGBColors.Black))
+        }
     }
     patrolLeft = carcotrol.getLineColorN(Position.Left)
     patrolRight = carcotrol.getLineColorN(Position.Right)
