@@ -20,7 +20,7 @@ let patrolLeft = 0
 pins.digitalWritePin(DigitalPin.P0, 0)
 pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
 if (input.buttonIsPressed(Button.A)) {
-    carcotrol.setCarType(carType.Ecocar)
+    carcotrol.setCarType(carType.Porocar)
 } else if (input.buttonIsPressed(Button.B)) {
     carcotrol.setCarType(carType.Tinybit)
 } else if (pins.digitalReadPin(DigitalPin.P8) == 1) {
@@ -31,8 +31,8 @@ if (input.buttonIsPressed(Button.A)) {
 pins.setPull(DigitalPin.P8, PinPullMode.PullNone)
 if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
     basic.showString("T")
-} else if (carcotrol.getCarType() == carcotrol.car(carType.Ecocar)) {
-    basic.showString("E")
+} else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+    basic.showString("P")
 } else {
     basic.showString("M")
 }
@@ -41,7 +41,7 @@ patrolRight = 0
 basic.forever(function () {
     speedLeft = ScratchMore.getSlot(Slot.SLOT0)
     speedRight = ScratchMore.getSlot(Slot.SLOT1)
-    carcotrol.CarCtrl2(speedLeft, speedRight)
+    carcotrol.carCtrl(0, 0)
     ScratchMore.setSlot(Slot.SLOT2, carcotrol.getDistance())
     slot3Value = ScratchMore.getSlot(Slot.SLOT3)
     splitToBools(slot3Value)
@@ -67,8 +67,8 @@ basic.forever(function () {
             carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Black))
         }
     }
-    patrolLeft = carcotrol.Line_Sensor(Position.Left)
-    patrolRight = carcotrol.Line_Sensor(Position.Right)
+    patrolLeft = carcotrol.getLineColorN(Position.Left)
+    patrolRight = carcotrol.getLineColorN(Position.Right)
     joinBools(ledLeft, ledRight, patrolLeft, patrolRight)
     ScratchMore.setSlot(Slot.SLOT3, slot3Value)
 })
