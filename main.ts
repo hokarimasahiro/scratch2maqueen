@@ -1,14 +1,14 @@
-function joinBools (ledLeft: number, ledRight: number, patrolLeft: number, patrolRight: number) {
-    slot3Value = ledLeft * 8 + ledRight * 4 + patrolLeft * 2 + patrolRight
-}
 ScratchMore.startService(function () {
 	
 })
+function joinBools (ledLeft: number, ledRight: number, patrolLeft: number, patrolRight: number) {
+    slot3Value = bit.lshift(ledLeft, 3) + bit.lshift(ledRight, 2) + bit.lshift(patrolLeft, 1) + bit.lshift(patrolRight, 0)
+}
 function splitToBools (value: number) {
-    ledLeft = Math.floor(value / 8)
-    ledRight = Math.floor((value - ledLeft * 8) / 4)
-    patrolLeft = Math.floor((value - ledLeft * 8 - ledRight * 4) / 2)
-    patrolRight = value - ledLeft * 8 - ledRight * 4 - patrolLeft * 2
+    ledLeft = bit.and(bit.rshift(value, 3), 1)
+    ledRight = bit.and(bit.rshift(value, 2), 1)
+    patrolLeft = bit.and(bit.rshift(value, 1), 1)
+    patrolRight = bit.and(bit.rshift(value, 0), 1)
 }
 let speedRight = 0
 let speedLeft = 0
@@ -18,23 +18,14 @@ let slot3Value = 0
 let patrolRight = 0
 let patrolLeft = 0
 pins.digitalWritePin(DigitalPin.P0, 0)
-pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
-if (input.buttonIsPressed(Button.A)) {
-    carcotrol.setCarType(carType.Porocar)
-} else if (input.buttonIsPressed(Button.B)) {
-    carcotrol.setCarType(carType.Tinybit)
-} else if (pins.digitalReadPin(DigitalPin.P8) == 1) {
-    carcotrol.setCarType(carType.Tinybit)
-} else {
-    carcotrol.setCarType(carType.Maqueen)
-}
-pins.setPull(DigitalPin.P8, PinPullMode.PullNone)
 if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
     basic.showString("T")
+} else if (carcotrol.getCarType() == carcotrol.car(carType.Maqueen)) {
+    basic.showString("M")
 } else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
     basic.showString("P")
 } else {
-    basic.showString("M")
+    basic.showIcon(IconNames.Confused)
 }
 patrolLeft = 0
 patrolRight = 0

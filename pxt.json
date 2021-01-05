@@ -6,7 +6,7 @@
         "bluetooth": "*",
         "pxt-scratch-more": "github:yokobond/pxt-scratch-more#v0.3.2",
         "pxt-carcntrol": "github:hokarimasahiro/pxt-carcontrol#aeff6ebac5a2167f0358c9036a031e822ecc5d0a",
-        "microphone": "*"
+        "bit": "github:hokarimasahiro/pxt-bitoperation#e2f3d66cd8dcb642c2c807e2c0a4607acf0b0301"
     },
     "files": [
         "main.blocks",
@@ -19,5 +19,5 @@
     "supportedTargets": [
         "microbit"
     ],
-    "preferredEditor": "tsprj"
+    "preferredEditor": "blocksprj"
 }
