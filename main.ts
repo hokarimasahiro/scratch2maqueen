@@ -1,9 +1,20 @@
-function joinBools (ledLeft: number, ledRight: number, patrolLeft: number, patrolRight: number) {
-    return bit.lshift(ledLeft, 3) + bit.lshift(ledRight, 2) + bit.lshift(patrolLeft, 1) + bit.lshift(patrolRight, 0)
-}
 ScratchMore.startService(function () {
 	
 })
+function LED表示 (left: number, right: number) {
+    if (carcotrol.getCarType() == carcotrol.car(carType.Maqueen)) {
+        carcotrol.setLED(Position.Left, carcotrol.rgb(left * 255, 0, 0))
+        carcotrol.setLED(Position.Right, carcotrol.rgb(right * 255, 0, 0))
+    } else if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
+        carcotrol.setLED(Position.Both, carcotrol.rgb(left * 255, right * 255, 0))
+    } else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+        carcotrol.setNeoPixelColor(0, carcotrol.rgb(left * 255, 0, 0))
+        carcotrol.setNeoPixelColor(1, carcotrol.rgb(right * 255, 0, 0))
+    }
+}
+function joinBools (ledLeft: number, ledRight: number, patrolLeft: number, patrolRight: number) {
+    return bit.lshift(ledLeft, 3) + bit.lshift(ledRight, 2) + bit.lshift(patrolLeft, 1) + bit.lshift(patrolRight, 0)
+}
 function splitToBools (value: number) {
     ledLeft = bit.and(bit.rshift(value, 3), 1)
     ledRight = bit.and(bit.rshift(value, 2), 1)
@@ -32,44 +43,13 @@ patrolRight = 0
 basic.forever(function () {
     speedLeft = ScratchMore.getSlot(Slot.SLOT0)
     speedRight = ScratchMore.getSlot(Slot.SLOT1)
-    carcotrol.carCtrl(0, 0)
+    carcotrol.carCtrl(speedLeft, speedRight)
     ScratchMore.setSlot(Slot.SLOT2, carcotrol.getDistance())
     slot3Value = ScratchMore.getSlot(Slot.SLOT3)
     splitToBools(slot3Value)
-    if (carcotrol.getCarType() == carcotrol.car(carType.Maqueen)) {
-        if (ledLeft == 1) {
-            carcotrol.setLED(Position.Left, carcotrol.colors(RGBColors.Red))
-        } else {
-            carcotrol.setLED(Position.Left, carcotrol.colors(RGBColors.Black))
-        }
-        if (ledRight == 1) {
-            carcotrol.setLED(Position.Right, carcotrol.colors(RGBColors.Red))
-        } else {
-            carcotrol.setLED(Position.Right, carcotrol.colors(RGBColors.Black))
-        }
-    } else if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
-        if (ledLeft == 1 && ledRight == 0) {
-            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Red))
-        } else if (ledLeft == 0 && ledRight == 1) {
-            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Green))
-        } else if (ledLeft == 1 && ledRight == 1) {
-            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Blue))
-        } else {
-            carcotrol.setLED(Position.Both, carcotrol.colors(RGBColors.Black))
-        }
-    } else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
-        if (ledLeft == 1) {
-            carcotrol.setNeoPixelColor(0, carcotrol.colors(RGBColors.Red))
-        } else {
-            carcotrol.setNeoPixelColor(0, carcotrol.colors(RGBColors.Black))
-        }
-        if (ledRight == 1) {
-            carcotrol.setNeoPixelColor(1, carcotrol.colors(RGBColors.Red))
-        } else {
-            carcotrol.setNeoPixelColor(1, carcotrol.colors(RGBColors.Black))
-        }
-    }
+    LED表示(ledLeft, ledRight)
     patrolLeft = carcotrol.getLineColorN(Position.Left)
     patrolRight = carcotrol.getLineColorN(Position.Right)
-    ScratchMore.setSlot(Slot.SLOT3, joinBools(ledLeft, ledRight, patrolLeft, patrolRight))
+    slot3Value = joinBools(ledLeft, ledRight, patrolLeft, patrolRight)
+    ScratchMore.setSlot(Slot.SLOT3, slot3Value)
 })
