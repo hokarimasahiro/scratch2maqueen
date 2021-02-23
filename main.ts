@@ -29,6 +29,7 @@ let ledLeft = 0
 let patrolRight = 0
 let patrolLeft = 0
 pins.digitalWritePin(DigitalPin.P0, 0)
+carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
 if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
     basic.showString("T")
 } else if (carcotrol.getCarType() == carcotrol.car(carType.Maqueen)) {
