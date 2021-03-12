@@ -13,7 +13,7 @@ function LED表示 (left: number, right: number) {
     }
 }
 function joinBools (ledLeft: number, ledRight: number, patrolLeft: number, patrolRight: number) {
-    return bit.lshift(ledLeft, 3) + bit.lshift(ledRight, 2) + bit.lshift(patrolLeft, 1) + bit.lshift(patrolRight, 0)
+    slot3Value = bit.lshift(ledLeft, 3) + bit.lshift(ledRight, 2) + bit.lshift(patrolLeft, 1) + bit.lshift(patrolRight, 0)
 }
 function splitToBools (value: number) {
     ledLeft = bit.and(bit.rshift(value, 3), 1)
@@ -21,11 +21,11 @@ function splitToBools (value: number) {
     patrolLeft = bit.and(bit.rshift(value, 1), 1)
     patrolRight = bit.and(bit.rshift(value, 0), 1)
 }
-let slot3Value = 0
 let speedRight = 0
 let speedLeft = 0
 let ledRight = 0
 let ledLeft = 0
+let slot3Value = 0
 let patrolRight = 0
 let patrolLeft = 0
 pins.digitalWritePin(DigitalPin.P0, 0)
@@ -51,6 +51,6 @@ basic.forever(function () {
     LED表示(ledLeft, ledRight)
     patrolLeft = carcotrol.getLineColorN(Position.Left)
     patrolRight = carcotrol.getLineColorN(Position.Right)
-    slot3Value = joinBools(ledLeft, ledRight, patrolLeft, patrolRight)
+    joinBools(ledLeft, ledRight, patrolLeft, patrolRight)
     ScratchMore.setSlot(Slot.SLOT3, slot3Value)
 })
