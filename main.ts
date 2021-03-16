@@ -2,15 +2,27 @@ ScratchMore.startService(function () {
 	
 })
 function LED表示 (left: number, right: number) {
-    if (carcotrol.getCarType() == carcotrol.car(carType.Maqueen)) {
-        carcotrol.setLED(Position.Left, carcotrol.rgb(left * 255, 0, 0))
-        carcotrol.setLED(Position.Right, carcotrol.rgb(right * 255, 0, 0))
-    } else if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
-        carcotrol.setLED(Position.Both, carcotrol.rgb(left * 255, right * 255, 0))
-    } else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
-        carcotrol.setNeoPixelColor(0, carcotrol.rgb(left * 255, 0, 0))
-        carcotrol.setNeoPixelColor(1, carcotrol.rgb(right * 255, 0, 0))
+    if (oldLedLeft != left || oldLedRight != right) {
+        if (carcotrol.getCarType() == carcotrol.car(carType.Maqueen)) {
+            carcotrol.setLED(Position.Left, carcotrol.rgb(left * 255, 0, 0))
+            carcotrol.setLED(Position.Right, carcotrol.rgb(right * 255, 0, 0))
+            carcotrol.setNeoPixelColor(0, carcotrol.rgb(0, left * 255, 0))
+            carcotrol.setNeoPixelColor(1, carcotrol.rgb(left * 255, left * 165, 0))
+            carcotrol.setNeoPixelColor(2, carcotrol.rgb(right * 255, right * 165, 0))
+            carcotrol.setNeoPixelColor(3, carcotrol.rgb(0, right * 255, 0))
+        } else if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
+            carcotrol.setLED(Position.Both, carcotrol.rgb(left * 255, right * 255, 0))
+            carcotrol.setNeoPixelColor(1, carcotrol.rgb(left * 255, left * 165, 0))
+            carcotrol.setNeoPixelColor(0, carcotrol.rgb(right * 255, right * 165, 0))
+        } else if (carcotrol.getCarType() == carcotrol.car(carType.Porocar)) {
+            carcotrol.setNeoPixelColor(0, carcotrol.rgb(left * 255, 0, 0))
+            carcotrol.setNeoPixelColor(3, carcotrol.rgb(0, left * 255, 0))
+            carcotrol.setNeoPixelColor(1, carcotrol.rgb(right * 255, 0, 0))
+            carcotrol.setNeoPixelColor(2, carcotrol.rgb(0, right * 255, 0))
+        }
     }
+    oldLedLeft = left
+    oldLedRight = right
 }
 function joinBools (ledLeft: number, ledRight: number, patrolLeft: number, patrolRight: number) {
     slot3Value = bit.lshift(ledLeft, 3) + bit.lshift(ledRight, 2) + bit.lshift(patrolLeft, 1) + bit.lshift(patrolRight, 0)
@@ -26,9 +38,12 @@ let speedLeft = 0
 let ledRight = 0
 let ledLeft = 0
 let slot3Value = 0
+let oldLedRight = 0
+let oldLedLeft = 0
 let patrolRight = 0
 let patrolLeft = 0
 pins.digitalWritePin(DigitalPin.P0, 0)
+carcotrol.setNeoBrightness(50)
 carcotrol.setNeoColor(carcotrol.colors(RGBColors.Black))
 if (carcotrol.getCarType() == carcotrol.car(carType.Tinybit)) {
     basic.showString("T")
